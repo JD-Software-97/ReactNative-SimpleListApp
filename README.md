@@ -8,4 +8,4 @@ The app makes use of the following tools/libraries:
 - Typescript
 - Expo
 - Axios
-- Stack Navigation
+- Tab Navigation

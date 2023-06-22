@@ -41,7 +41,7 @@ const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <FlatList
-                style={{ marginTop: 40 }}
+                style={{ marginVertical: 4 }}
                 data={data}
                 extraData={data}
                 renderItem={({ item }) => characterListView(item)}
