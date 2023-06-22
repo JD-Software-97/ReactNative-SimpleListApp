@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux'
 import React, { useEffect, useState, } from 'react'
@@ -18,13 +18,22 @@ const HomeScreen = () => {
         dispatch(apiCall())
     }
 
-    const postsListView = (item: any) => {
+    const characterListView = (item: { imageUrl: string, fullName: string, family: string }) => {
         return (
-            <View style={{}}>
+            <View style={{ margin: 4 }}>
                 <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                    <Text style={{ marginRight: 10 }}>{item.fullName}</Text>
+                    <Image source={{ uri: item.imageUrl }} style={{ height: 60, width: 60 }} resizeMode="cover" />
+                    <Text>{item.fullName}</Text>
                     <Text>{item.family}</Text>
                 </View>
+            </View>
+        )
+    }
+
+    const emptyListView = () => {
+        return (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Text>No characters</Text>
             </View>
         )
     }
@@ -32,11 +41,12 @@ const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <FlatList
-                style={{ margin: 40 }}
+                style={{ marginTop: 40 }}
                 data={data}
                 extraData={data}
-                renderItem={({ item }) => postsListView(item)}
-                keyExtractor={item => item.postID}
+                renderItem={({ item }) => characterListView(item)}
+                ListEmptyComponent={({ }) => emptyListView()}
+                keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
