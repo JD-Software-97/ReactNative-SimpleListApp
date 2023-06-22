@@ -5,9 +5,8 @@ const apiActionCreator = () => (dispatch: any) => {
     dispatch(fetchData())
 
     return new Promise(() => {
-        axios.get('https://www.anapioficeandfire.com/api/characters')
+        axios.get('https://thronesapi.com/api/v2/characters')
             .then((data) => {
-                console.log(data)
                 dispatch(fetchSuccess(data.data));
             })
             .catch((err) => {

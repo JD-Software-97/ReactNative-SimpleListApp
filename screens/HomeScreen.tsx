@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'redux'
-import React, { useEffect, } from 'react'
+import React, { useEffect, useState, } from 'react'
 import apiCall from '../store/apiActionCreator';
 
 const HomeScreen = () => {
@@ -10,12 +10,43 @@ const HomeScreen = () => {
     const loading = useSelector((state: any) => state.apiReducer.loading);
 
     useEffect(() => {
-        dispatch(apiCall())
+        getListData()
+        console.log(data)
     }, [])
+
+    const getListData = () => {
+        dispatch(apiCall())
+    }
+
+    const postsListView = (item: any) => {
+        return (
+            <View style={{}}>
+                <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
+                    <Text style={{ marginRight: 10 }}>{item.fullName}</Text>
+                    <Text>{item.family}</Text>
+                </View>
+            </View>
+        )
+    }
 
     return (
         <View style={styles.container}>
-            <Text>Test</Text>
+            <FlatList
+                style={{ margin: 40 }}
+                data={data}
+                extraData={data}
+                renderItem={({ item }) => postsListView(item)}
+                keyExtractor={item => item.postID}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        onRefresh={getListData}
+                        refreshing={loading}
+                        title={"Pull to refresh"}
+                    />
+
+                }
+            />
         </View>
     )
 }
