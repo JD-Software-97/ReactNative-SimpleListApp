@@ -18,13 +18,18 @@ const HomeScreen = () => {
         dispatch(apiCall())
     }
 
-    const characterListView = (item: { imageUrl: string, fullName: string, family: string }) => {
+    const characterListView = (item: { imageUrl: string, fullName: string, family: string, title: string }) => {
         return (
-            <View style={{ margin: 4 }}>
-                <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                    <Image source={{ uri: item.imageUrl }} style={{ height: 60, width: 60 }} resizeMode="cover" />
-                    <Text>{item.fullName}</Text>
-                    <Text>{item.family}</Text>
+            <View style={styles.listContainer}>
+                <View style={styles.listContainerItems}>
+                    <Image source={{ uri: item.imageUrl }} style={{ height: 100, width: 100 }} resizeMode="cover" />
+
+                    <View style={styles.detailsText}>
+                        <Text style={{ fontWeight: 'bold' }}>{item.fullName}</Text>
+                        <Text>{item.family}</Text>
+                    </View>
+
+                    <Text style={styles.detailsText} >{item.title}</Text>
                 </View>
             </View>
         )
@@ -43,7 +48,6 @@ const HomeScreen = () => {
             <FlatList
                 style={{ marginVertical: 4 }}
                 data={data}
-                extraData={data}
                 renderItem={({ item }) => characterListView(item)}
                 ListEmptyComponent={({ }) => emptyListView()}
                 keyExtractor={item => item.id}
@@ -66,5 +70,21 @@ export default HomeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    detailsText: {
+        width: 100,
+        alignItems: 'center',
+        alignSelf: "center"
+    },
+    listContainer: {
+        margin: 4,
+        borderWidth: 2,
+        borderColor: 'black',
+        borderRadius: 12
+    },
+    listContainerItems: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        padding: 10
     }
 })
